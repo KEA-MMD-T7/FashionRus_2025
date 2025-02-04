@@ -8,12 +8,7 @@ fetch(`https://kea-alt-del.dk/t7/api/categories/`)
 
 function showCategori(data) {
   console.log(data);
-  markup = data
-    .map(
-      (element) =>
-        `   <a href="productlist.html?category=${element.category}">${element.category}</a>`
-    )
-    .join("");
+  markup = data.map((element) => `<a href="productlist.html?category=${element.category}">${element.category}</a>`).join("");
   console.log(markup);
 
   categorylist.innerHTML = markup;
