@@ -1,12 +1,12 @@
-const categori = new URLSearchParams(window.location.search).get("category");
-console.log("produtliste loader... med categori:", categori);
+const mycategori = new URLSearchParams(window.location.search).get("category");
+console.log("produtliste loader... med categori:", mycategori);
 
 const productlist = document.querySelector(".list");
 const overskrift = document.querySelector("h2");
 
-overskrift.innerHTML = categori;
+overskrift.innerHTML = mycategori;
 
-fetch(`https://kea-alt-del.dk/t7/api/products?category=${categori}`)
+fetch(`https://kea-alt-del.dk/t7/api/products?category=${mycategori}`)
   .then((response) => response.json())
   .then(showProducts);
 
