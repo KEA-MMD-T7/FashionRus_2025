@@ -13,14 +13,8 @@ if (category) {
 
 let data;
 
-let data;
-
 fetch(endpoint)
   .then((response) => response.json())
-  .then((json) => {
-    data = json;
-    showProducts(data);
-  });
   .then((json) => {
     data = json;
     showProducts(data);
