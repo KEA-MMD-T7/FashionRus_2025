@@ -1,10 +1,8 @@
 let productListContainer = document.querySelector("#productlistcontainer");
 let endpoint = "https://kea-alt-del.dk/t7/api/products";
-
 const filterSelect = document.querySelector("#filterProductList");
-filterSelect.addEventListener("change", (event) => myFetch(event));
 
-function myFetch(event) {
+function fetchProducts(event) {
   fetch(endpoint)
     .then((response) => response.json())
     .then((data) => {
@@ -12,7 +10,7 @@ function myFetch(event) {
         .filter((product) => {
           if (event) {
             if (event.target.value == "all") {
-              // Return true betyder at alle produkter kommer med i det filtrerede resultat!
+              // Return true betyder her, at alle produkter kommer med i det filtrerede resultat!
               return true;
             } else if (event.target.value == "discount") {
               // return product[event.target.value];
@@ -27,6 +25,7 @@ function myFetch(event) {
               return !product.soldout && product.discount;
             }
           } else {
+            // Return true betyder også her, at alle produkter kommer med i det filtrerede resultat!
             return true;
           }
         })
@@ -56,4 +55,9 @@ function myFetch(event) {
       productListContainer.innerHTML = markup;
     });
 }
-myFetch();
+
+// fetch product on initial render
+fetchProducts();
+
+//fetch product on filter change
+filterSelect.addEventListener("change", (event) => fetchProducts(event));
