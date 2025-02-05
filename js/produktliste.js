@@ -2,23 +2,36 @@ const category = new URLSearchParams(window.location.search).get("category");
 const productlist = document.querySelector(".productlist main");
 const overskrift = document.querySelector("h2");
 
-let endpoint = `https://kea-alt-del.dk/t7/api/products`;
+document.querySelectorAll("button").forEach((knap) => knap.addEventListener("click", showProducts));
+
+let endpoint = `https://kea-alt-del.dk/t7/api/products?limit=50`;
 
 if (category) {
   overskrift.innerHTML = category;
   endpoint = `https://kea-alt-del.dk/t7/api/products?category=${category}`;
 }
 
+let data;
+
 fetch(endpoint)
   .then((response) => response.json())
-  .then(showProducts);
+  .then((json) => {
+    data = json;
+    showProducts(data);
+  });
 
-function showProducts(data) {
-  console.log(data);
-  markup = data
+function showProducts() {
+  const filter = this.dataset.gender;
+
+  if (filter == "All") {
+    fraction = data;
+  } else {
+    fraction = data.filter((product) => product.gender === filter);
+  }
+  console.log(filter, fraction);
+  markup = fraction
     .map(
       (element) =>
-        //`<article class="smallProduct">
         `<article class="smallProduct ${element.soldout ? "soldOut" : ""}">
       <img src="https://kea-alt-del.dk/t7/images/webp/640/${element.id}.webp" alt="product image" />
       <h3>${element.productdisplayname}</h3>
