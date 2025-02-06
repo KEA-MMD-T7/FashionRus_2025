@@ -21,9 +21,8 @@ fetch(endpoint)
 
 function showFiltered() {
   const filter = this.dataset.gender;
-  if (filter == "All") {
-    fraction = allData;
-  } else {
+  let fraction = allData;
+  if (filter != "All") {
     fraction = allData.filter((product) => product.gender === filter);
   }
   showProducts(fraction);
