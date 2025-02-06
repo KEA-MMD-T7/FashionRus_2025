@@ -1,9 +1,6 @@
 const category = new URLSearchParams(window.location.search).get("category");
 const productlist = document.querySelector(".productlist main");
 const overskrift = document.querySelector("h2");
-
-document.querySelectorAll("button").forEach((knap) => knap.addEventListener("click", showFiltered));
-
 let endpoint = `https://kea-alt-del.dk/t7/api/products?limit=50`;
 
 if (category) {
@@ -11,29 +8,29 @@ if (category) {
   endpoint = `https://kea-alt-del.dk/t7/api/products?limit=50&category=${category}`;
 }
 
-let data;
+document.querySelectorAll("button").forEach((knap) => knap.addEventListener("click", showFiltered));
+
+let allData;
 
 fetch(endpoint)
   .then((response) => response.json())
   .then((json) => {
-    data = json;
-    showProducts(data);
+    allData = json;
+    showProducts(allData);
   });
 
 function showFiltered() {
   const filter = this.dataset.gender;
   if (filter == "All") {
-    fraction = data;
+    fraction = allData;
   } else {
-    fraction = data.filter((product) => product.gender === filter);
+    fraction = allData.filter((product) => product.gender === filter);
   }
-  console.log(filter, fraction);
   showProducts(fraction);
 }
 
-function showProducts(anyData) {
-  console.log(anyData);
-  markup = anyData
+function showProducts(data) {
+  markup = data
     .map(
       (element) =>
         `<article class="smallProduct ${element.soldout ? "soldOut" : ""}">
