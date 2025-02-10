@@ -21,11 +21,12 @@ fetch(endpoint)
 
 function showFiltered() {
   const filter = this.dataset.gender;
-  let fraction = allData;
-  if (filter != "All") {
+  if (filter == "All") {
+    showProducts(allData);
+  } else {
     fraction = allData.filter((product) => product.gender === filter);
+    showProducts(fraction);
   }
-  showProducts(fraction);
 }
 
 function showProducts(data) {
