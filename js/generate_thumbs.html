@@ -22,42 +22,83 @@
             gap: 1rem;
             max-width: 1200px;
             margin: auto;
+
+            a {
+                text-decoration: none;
+                color: inherit;
+                display: flex;
+                flex-direction: column;
+            }
         }
 
         article {
-            background-color: #ede;
+            background-color: #ded;
 
             img {
                 float: left;
                 margin-right: 1rem;
             }
         }
+
+        nav {
+            padding: 1rem 0;
+        }
+
+        .male {
+            background-color: #dee;
+        }
     </style>
 </head>
 
 <body>
     <h1>Medlemsliste</h1>
+    <nav>
+        <button data-all>All</button>
+        <button data-gender="female">Female</button>
+        <button data-gender="male">Male</button>
+        <button data-role="user">User</button>
+        <button data-role="admin">Admmin</button>
+    </nav>
+    <h2>All</h2>
     <main>
     </main>
     <script>
         window.addEventListener("load", hentData);
+        document.querySelectorAll("button").forEach(knap => knap.addEventListener("click", filtrer));
 
         const endpoint = "https://dummyjson.com/users";
+        const filterHeader = document.querySelector("h2");
+
+        let allData;
 
         function hentData() {
-            fetch(endpoint).then(res => res.json()).then(visListe);
+            fetch(endpoint).then(res => res.json()).then(data => allData = data).then(data => visListe(data.users));
         }
 
         function visListe(data) {
-            const markup = data.users.map((user, i) => (
-                `<article>
-                <img src="https://randomuser.me/api/portraits/${user.gender == "female" ? "women" : "men"}/${i}.jpg" alt="profile image">
+            const markup = data.map((user, i) => (
+                `<a href="profile.html?id=${user.id}"><article class="${user.gender}">
+                <img src="https://randomuser.me/api/portraits/${user.gender == "female" ? "women" : "men"}/${user.id}.jpg" alt="profile image">
                 <h2>${user.firstName} ${user.lastName}</h2>
                 <p>${user.phone}</p>
-            </article>`
+            </article></a>`
             )).join('');
             document.querySelector("main").innerHTML = markup;
-            console.log(data.users);
+        }
+
+        function filtrer() {
+            if (this.dataset.gender) {
+                const filtreretData = allData.users.filter(elm => elm.gender == this.dataset.gender);
+                filterHeader.textContent = this.dataset.gender;
+                visListe(filtreretData);
+            } else if (this.dataset.role) {
+                const filtreretData = allData.users.filter(elm => elm.role == this.dataset.role);
+                filterHeader.textContent = this.dataset.role;
+                visListe(filtreretData);
+            } else {
+                visListe(allData.users);
+                filterHeader.textContent = "All";
+            }
         }
     </script>
 </body>
