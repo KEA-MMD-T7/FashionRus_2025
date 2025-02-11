@@ -33,11 +33,28 @@
 
         article {
             background-color: #ded;
+            border-radius: 5rem 0;
 
             img {
                 float: left;
                 margin-right: 1rem;
+                filter: grayscale(.8);
             }
+        }
+
+        article:hover {
+            filter: drop-shadow(grey 3px 3px 8px);
+            translate: -3px;
+
+            img {
+                filter: grayscale(0);
+            }
+        }
+
+        article:active {
+            translate: 0px;
+            filter: drop-shadow(0px 0px 0px);
+
         }
 
         nav {
@@ -51,9 +68,9 @@
 </head>
 
 <body>
-    <h1>Medlemsliste</h1>
+    <h1>Members</h1>
     <nav>
-        <button data-all>All</button>
+        <button data-all="all">All</button>
         <button data-gender="female">Female</button>
         <button data-gender="male">Male</button>
         <button data-role="user">User</button>
