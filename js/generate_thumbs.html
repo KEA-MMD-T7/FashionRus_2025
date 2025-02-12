@@ -76,6 +76,11 @@
         <button data-role="user">User</button>
         <button data-role="admin">Admmin</button>
     </nav>
+    <nav>
+        <button data-sort="gender">Sorter efter køn</button>
+        <button data-sort="role">Sorter efter rolle</button>
+        <button data-sort="firstName">Sorter efter fornavn</button>
+    </nav>
     <h2>All</h2>
     <main>
     </main>
@@ -93,11 +98,12 @@
         }
 
         function visListe(data) {
-            const markup = data.map((user, i) => (
+            const markup = data.map((user) => (
                 `<a href="profile.html?id=${user.id}"><article class="${user.gender}">
                 <img src="https://randomuser.me/api/portraits/${user.gender == "female" ? "women" : "men"}/${user.id}.jpg" alt="profile image">
                 <h2>${user.firstName} ${user.lastName}</h2>
                 <p>${user.phone}</p>
+                <p>${user.role}</p>
             </article></a>`
             )).join('');
             document.querySelector("main").innerHTML = markup;
@@ -111,6 +117,18 @@
             } else if (this.dataset.role) {
                 const filtreretData = allData.users.filter(elm => elm.role == this.dataset.role);
                 filterHeader.textContent = this.dataset.role;
+                visListe(filtreretData);
+            } else if (this.dataset.sort == "gender") {
+                const filtreretData = allData.users.toSorted((a, b) => a.gender.localeCompare(b.gender));
+                visListe(filtreretData);
+                filterHeader.textContent = this.dataset.sort;
+            } else if (this.dataset.sort == "role") {
+                const filtreretData = allData.users.toSorted((a, b) => a.role.localeCompare(b.role));
+                filterHeader.textContent = this.dataset.sort;
+                visListe(filtreretData);
+            } else if (this.dataset.sort == "firstName") {
+                const filtreretData = allData.users.toSorted((a, b) => a.firstName.localeCompare(b.firstName));
+                filterHeader.textContent = this.dataset.sort;
                 visListe(filtreretData);
             } else {
                 visListe(allData.users);
