@@ -82,6 +82,8 @@
         <button data-sort="role">Sorter efter rolle</button>
         <button data-sort="firstName">Sorter efter fornavn</button>
         <button data-sort="lastName">Sorter efter efternavn</button>
+        <button data-sort="age">Sorter efter alder</button>
+        <button data-sort="height">Sorter efter højde</button>
     </nav>
     <h2>All</h2>
     <main>
@@ -100,9 +102,10 @@
             fetch(endpoint)
                 .then(res => res.json())
                 .then(data => {
-                    visListe(data.users);
+                    console.log(data.users[0]);
                     allData = data;
                     filtreretData = data.users;
+                    visListe(data.users);
                 });
         }
 
@@ -111,8 +114,8 @@
                 `<a href="profile.html?id=${user.id}"><article class="${user.gender}">
                     <img src="https://randomuser.me/api/portraits/${user.gender == "female" ? "women" : "men"}/${user.id}.jpg" alt="profile image">
                     <h2>${user.firstName} ${user.lastName}</h2>
-                    <p>${user.phone}</p>
                     <p>${user.role}</p>
+                    <p>${user.age}y ${user.height}cm</p>
                     </article></a>`
             )).join('');
             document.querySelector("main").innerHTML = markup;
@@ -134,18 +137,14 @@
         }
 
         function sorter() {
-            const citeria = this.dataset.sort;
-            if (citeria == "gender") {
-                sortetData = filtreretData.toSorted((a, b) => a.gender.localeCompare(b.gender));
-            } else if (citeria == "role") {
-                sortetData = filtreretData.toSorted((a, b) => a.role.localeCompare(b.role));
-            } else if (citeria == "firstName") {
-                sortetData = filtreretData.toSorted((a, b) => a.firstName.localeCompare(b.firstName));
-            } else if (citeria == "lastName") {
-                sortetData = filtreretData.toSorted((a, b) => a.lastName.localeCompare(b.lastName));
+            const criteria = this.dataset.sort;
+            if (criteria === "age" || criteria === "height") {
+                sortedData = filtreretData.toSorted((a, b) => a[criteria] - (b[criteria]));
+            } else {
+                sortedData = filtreretData.toSorted((a, b) => a[criteria].localeCompare(b[criteria]));
             }
-            filterHeader.textContent = filter + " sorted by " + citeria;
-            visListe(sortetData);
+            filterHeader.textContent = filter + " sorted by " + criteria;
+            visListe(sortedData);
         }
     </script>
 </body>
