@@ -80,6 +80,7 @@
         <button data-sort="gender">Sorter efter køn</button>
         <button data-sort="role">Sorter efter rolle</button>
         <button data-sort="firstName">Sorter efter fornavn</button>
+        <button data-sort="lastName">Sorter efter efternavn</button>
     </nav>
     <h2>All</h2>
     <main>
@@ -95,7 +96,13 @@
         let allData, filtreretData;
 
         function hentData() {
-            fetch(endpoint).then(res => res.json()).then(data => allData = data).then(data => visListe(data.users));
+            fetch(endpoint)
+                .then(res => res.json())
+                .then(data => {
+                    visListe(data.users);
+                    allData = data;
+                    filtreretData = data.users;
+                });
         }
 
         function visListe(data) {
@@ -126,7 +133,6 @@
         }
 
         function sorter() {
-            console.log(this.dataset)
             if (this.dataset.sort == "gender") {
                 sortetData = filtreretData.toSorted((a, b) => a.gender.localeCompare(b.gender));
                 filterHeader.textContent = this.dataset.sort;
@@ -135,6 +141,9 @@
                 filterHeader.textContent = this.dataset.sort;
             } else if (this.dataset.sort == "firstName") {
                 sortetData = filtreretData.toSorted((a, b) => a.firstName.localeCompare(b.firstName));
+                filterHeader.textContent = this.dataset.sort;
+            } else if (this.dataset.sort == "lastName") {
+                sortetData = filtreretData.toSorted((a, b) => a.lastName.localeCompare(b.lastName));
                 filterHeader.textContent = this.dataset.sort;
             }
             visListe(sortetData);
