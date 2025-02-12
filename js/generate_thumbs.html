@@ -12,6 +12,10 @@
             margin: auto;
         }
 
+        h2 {
+            text-transform: capitalize;
+        }
+
         form {
             padding: 1rem;
         }
@@ -33,22 +37,19 @@
 
         article {
             background-color: #ded;
-            border-radius: 5rem 0;
+            border-radius: 4rem 0;
 
             img {
                 float: left;
                 margin-right: 1rem;
-                filter: grayscale(.8);
+                border-radius: 4rem 0;
+                height: 100%;
             }
         }
 
         article:hover {
             filter: drop-shadow(grey 3px 3px 8px);
             translate: -3px;
-
-            img {
-                filter: grayscale(0);
-            }
         }
 
         article:active {
@@ -71,10 +72,10 @@
     <h1>Members</h1>
     <nav id="filter-nav">
         <button data-all="all">All</button>
-        <button data-gender="female">Female</button>
-        <button data-gender="male">Male</button>
-        <button data-role="user">User</button>
-        <button data-role="admin">Admmin</button>
+        <button data-gender="female">Women</button>
+        <button data-gender="male">Men</button>
+        <button data-role="user">Users</button>
+        <button data-role="admin">Admmins</button>
     </nav>
     <nav id="sort-nav">
         <button data-sort="gender">Sorter efter køn</button>
@@ -93,7 +94,7 @@
         const endpoint = "https://dummyjson.com/users";
         const filterHeader = document.querySelector("h2");
 
-        let allData, filtreretData;
+        let allData, filtreretData, filter = "all";
 
         function hentData() {
             fetch(endpoint)
@@ -115,36 +116,36 @@
                     </article></a>`
             )).join('');
             document.querySelector("main").innerHTML = markup;
-            //filtreretData = allData.users;
         }
 
         function filtrer() {
-            filtreretData = allData.users;
             if (this.dataset.gender) {
-                filtreretData = allData.users.filter(elm => elm.gender == this.dataset.gender);
-                filterHeader.textContent = this.dataset.gender;
+                filter = this.dataset.gender;
+                filtreretData = allData.users.filter(elm => elm.gender == filter);
             } else if (this.dataset.role) {
-                filtreretData = allData.users.filter(elm => elm.role == this.dataset.role);
-                filterHeader.textContent = this.dataset.role;
+                filter = this.dataset.role;
+                filtreretData = allData.users.filter(elm => elm.role == filter);
             } else {
-                filterHeader.textContent = "All";
+                filter = "all";
+                filtreretData = allData.users;
             }
+            filterHeader.textContent = filter;
             visListe(filtreretData);
         }
 
         function sorter() {
             if (this.dataset.sort == "gender") {
                 sortetData = filtreretData.toSorted((a, b) => a.gender.localeCompare(b.gender));
-                filterHeader.textContent = this.dataset.sort;
+                filterHeader.textContent = filter + " sorted by " + this.dataset.sort;
             } else if (this.dataset.sort == "role") {
                 sortetData = filtreretData.toSorted((a, b) => a.role.localeCompare(b.role));
-                filterHeader.textContent = this.dataset.sort;
+                filterHeader.textContent = filter + " sorted by " + this.dataset.sort;
             } else if (this.dataset.sort == "firstName") {
                 sortetData = filtreretData.toSorted((a, b) => a.firstName.localeCompare(b.firstName));
-                filterHeader.textContent = this.dataset.sort;
+                filterHeader.textContent = filter + " sorted by " + this.dataset.sort;
             } else if (this.dataset.sort == "lastName") {
                 sortetData = filtreretData.toSorted((a, b) => a.lastName.localeCompare(b.lastName));
-                filterHeader.textContent = this.dataset.sort;
+                filterHeader.textContent = filter + " sorted by " + this.dataset.sort;
             }
             visListe(sortetData);
         }
