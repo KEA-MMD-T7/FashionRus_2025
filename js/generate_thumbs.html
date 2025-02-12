@@ -87,12 +87,12 @@
     <script>
         window.addEventListener("load", hentData);
         document.querySelectorAll("#filter-nav button").forEach(knap => knap.addEventListener("click", filtrer));
-        document.querySelectorAll("#sort-nav button").forEach(knap => knap.addEventListener("click", soter));
+        document.querySelectorAll("#sort-nav button").forEach(knap => knap.addEventListener("click", sorter));
 
         const endpoint = "https://dummyjson.com/users";
         const filterHeader = document.querySelector("h2");
 
-        let allData;
+        let allData, filtreretData;
 
         function hentData() {
             fetch(endpoint).then(res => res.json()).then(data => allData = data).then(data => visListe(data.users));
@@ -101,17 +101,18 @@
         function visListe(data) {
             const markup = data.map((user) => (
                 `<a href="profile.html?id=${user.id}"><article class="${user.gender}">
-                <img src="https://randomuser.me/api/portraits/${user.gender == "female" ? "women" : "men"}/${user.id}.jpg" alt="profile image">
-                <h2>${user.firstName} ${user.lastName}</h2>
-                <p>${user.phone}</p>
-                <p>${user.role}</p>
-            </article></a>`
+                    <img src="https://randomuser.me/api/portraits/${user.gender == "female" ? "women" : "men"}/${user.id}.jpg" alt="profile image">
+                    <h2>${user.firstName} ${user.lastName}</h2>
+                    <p>${user.phone}</p>
+                    <p>${user.role}</p>
+                    </article></a>`
             )).join('');
             document.querySelector("main").innerHTML = markup;
+            //filtreretData = allData.users;
         }
 
         function filtrer() {
-            let filtreretData = allData.users;
+            filtreretData = allData.users;
             if (this.dataset.gender) {
                 filtreretData = allData.users.filter(elm => elm.gender == this.dataset.gender);
                 filterHeader.textContent = this.dataset.gender;
@@ -125,16 +126,19 @@
         }
 
         function sorter() {
+            console.log(this.dataset)
             if (this.dataset.sort == "gender") {
-                filtreretData = allData.users.toSorted((a, b) => a.gender.localeCompare(b.gender));
+                sortetData = filtreretData.toSorted((a, b) => a.gender.localeCompare(b.gender));
                 filterHeader.textContent = this.dataset.sort;
             } else if (this.dataset.sort == "role") {
-                filtreretData = allData.users.toSorted((a, b) => a.role.localeCompare(b.role));
+                sortetData = filtreretData.toSorted((a, b) => a.role.localeCompare(b.role));
                 filterHeader.textContent = this.dataset.sort;
             } else if (this.dataset.sort == "firstName") {
-                filtreretData = allData.users.toSorted((a, b) => a.firstName.localeCompare(b.firstName));
+                sortetData = filtreretData.toSorted((a, b) => a.firstName.localeCompare(b.firstName));
                 filterHeader.textContent = this.dataset.sort;
             }
+            visListe(sortetData);
+        }
     </script>
 </body>
 
