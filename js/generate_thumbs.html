@@ -37,22 +37,19 @@
 
         article {
             background-color: #ded;
-            border-radius: 5rem 0;
+            border-radius: 4rem 0;
 
             img {
                 float: left;
                 margin-right: 1rem;
-                filter: grayscale(.8);
+                border-radius: 4rem 0;
+                height: 100%;
             }
         }
 
         article:hover {
             filter: drop-shadow(grey 3px 3px 8px);
             translate: -3px;
-
-            img {
-                filter: grayscale(0);
-            }
         }
 
         article:active {
@@ -119,7 +116,6 @@
                     </article></a>`
             )).join('');
             document.querySelector("main").innerHTML = markup;
-            //filtreretData = allData.users;
         }
 
         function filtrer() {
