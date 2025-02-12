@@ -134,19 +134,17 @@
         }
 
         function sorter() {
-            if (this.dataset.sort == "gender") {
+            const citeria = this.dataset.sort;
+            if (citeria == "gender") {
                 sortetData = filtreretData.toSorted((a, b) => a.gender.localeCompare(b.gender));
-                filterHeader.textContent = filter + " sorted by " + this.dataset.sort;
-            } else if (this.dataset.sort == "role") {
+            } else if (citeria == "role") {
                 sortetData = filtreretData.toSorted((a, b) => a.role.localeCompare(b.role));
-                filterHeader.textContent = filter + " sorted by " + this.dataset.sort;
-            } else if (this.dataset.sort == "firstName") {
+            } else if (citeria == "firstName") {
                 sortetData = filtreretData.toSorted((a, b) => a.firstName.localeCompare(b.firstName));
-                filterHeader.textContent = filter + " sorted by " + this.dataset.sort;
-            } else if (this.dataset.sort == "lastName") {
+            } else if (citeria == "lastName") {
                 sortetData = filtreretData.toSorted((a, b) => a.lastName.localeCompare(b.lastName));
-                filterHeader.textContent = filter + " sorted by " + this.dataset.sort;
             }
+            filterHeader.textContent = filter + " sorted by " + citeria;
             visListe(sortetData);
         }
     </script>
