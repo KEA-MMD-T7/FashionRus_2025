@@ -36,6 +36,7 @@
         }
 
         article {
+            position: relative;
             background-color: #ded;
             border-radius: 4rem 0;
 
@@ -48,7 +49,7 @@
         }
 
         article:hover {
-            filter: drop-shadow(grey 3px 3px 8px);
+            filter: drop-shadow(grey 3px 3px 8px) sepia(50%);
             translate: -3px;
         }
 
@@ -65,6 +66,14 @@
         .male {
             background-color: #dee;
         }
+
+        .admin {
+            background-color: #dee;
+        }
+
+        .moderator {
+            background-color: #ede;
+        }
     </style>
 </head>
 
@@ -76,6 +85,7 @@
         <button data-gender="male">Men</button>
         <button data-role="user">Users</button>
         <button data-role="admin">Admmins</button>
+        <button data-role="moderator">Moderators</button>
     </nav>
     <nav id="sort-nav">
         <button data-sort="gender">Sorter efter køn</button>
@@ -111,10 +121,11 @@
 
         function visListe(data) {
             const markup = data.map((user) => (
-                `<a href="profile.html?id=${user.id}"><article class="${user.gender}">
+                `<a href="profile.html?id=${user.id}">
+                    <article class="${user.role}">
                     <img src="https://randomuser.me/api/portraits/${user.gender == "female" ? "women" : "men"}/${user.id}.jpg" alt="profile image">
                     <h2>${user.firstName} ${user.lastName}</h2>
-                    <p>${user.role}</p>
+                    <p>${user.role} (${user.gender})</p>
                     <p>${user.age}y ${user.height}cm</p>
                     </article></a>`
             )).join('');
