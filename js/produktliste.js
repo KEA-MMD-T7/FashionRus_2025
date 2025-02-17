@@ -14,7 +14,6 @@ fetch(endpoint)
   .then(showProducts);
 
 function showProducts(data) {
-  console.log(data);
   markup = data
     .map(
       (element) =>
@@ -36,4 +35,27 @@ function showProducts(data) {
     )
     .join("");
   productlist.innerHTML = markup;
+}
+
+function filtrer(e) {
+  if (e.target.value == "all") {
+    filtreretData = allData.users;
+    filterHeader.textContent = "All";
+  } else if (e.target.value == "female") {
+    filtreretData = allData.users.filter((elm) => elm.gender == "female");
+    filterHeader.textContent = "Female";
+  } else if (e.target.value == "male") {
+    filtreretData = allData.users.filter((elm) => elm.gender == "male");
+    filterHeader.textContent = "Male";
+  } else if (e.target.value == "user") {
+    filtreretData = allData.users.filter((elm) => elm.role == "user");
+    filterHeader.textContent = "User";
+  } else if (e.target.value == "admin") {
+    filtreretData = allData.users.filter((elm) => elm.role == "admin");
+    filterHeader.textContent = "Admin";
+  } else if (e.target.value == "moderator") {
+    filtreretData = allData.users.filter((elm) => elm.role == "moderator");
+    filterHeader.textContent = "moderator";
+  }
+  showProducts(filtreretData);
 }
