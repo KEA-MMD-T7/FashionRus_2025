@@ -12,14 +12,14 @@ if (category) {
 
 let allData, filtreretData;
 
+hentData();
+
 function hentData() {
   fetch(endpoint)
     .then((res) => res.json())
     .then((data) => (allData = data))
     .then((data) => showProducts(data));
 }
-
-hentData();
 
 function showProducts(data) {
   console.log(data);
