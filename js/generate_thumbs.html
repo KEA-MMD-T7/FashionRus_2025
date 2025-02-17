@@ -69,19 +69,20 @@
 
 <body>
     <h1>Members</h1>
-    <nav>
-        <button data-all="all">All</button>
-        <button data-gender="female">Female</button>
-        <button data-gender="male">Male</button>
-        <button data-role="user">User</button>
-        <button data-role="admin">Admmin</button>
-    </nav>
+    <select>
+        <option value="all">All</option>
+        <option value="female">Female</option>
+        <option value="male">Male</option>
+        <option value="user">User</option>
+        <option value="moderator">Moderator</option>
+        <option value="admin">Admmin</option>
+    </select>
     <h2>All</h2>
     <main>
     </main>
     <script>
         window.addEventListener("load", hentData);
-        document.querySelectorAll("button").forEach(knap => knap.addEventListener("click", filtrer));
+        document.querySelector("select").addEventListener("change", filtrer)
 
         const endpoint = "https://dummyjson.com/users";
         const filterHeader = document.querySelector("h2");
@@ -103,16 +104,25 @@
             document.querySelector("main").innerHTML = markup;
         }
 
-        function filtrer() {
-            if (this.dataset.gender) {
-                filtreretData = allData.users.filter(elm => elm.gender == this.dataset.gender);
-                filterHeader.textContent = this.dataset.gender;
-            } else if (this.dataset.role) {
-                filtreretData = allData.users.filter(elm => elm.role == this.dataset.role);
-                filterHeader.textContent = this.dataset.role;
-            } else {
-                filtreretData = allData;
+        function filtrer(e) {
+            if (e.target.value == "all") {
+                filtreretData = allData.users;
                 filterHeader.textContent = "All";
+            } else if (e.target.value == "female") {
+                filtreretData = allData.users.filter(elm => elm.gender == "female");
+                filterHeader.textContent = "Female";
+            } else if (e.target.value == "male") {
+                filtreretData = allData.users.filter(elm => elm.gender == "male");
+                filterHeader.textContent = "Male";
+            } else if (e.target.value == "user") {
+                filtreretData = allData.users.filter(elm => elm.role == "user");
+                filterHeader.textContent = "User";
+            } else if (e.target.value == "admin") {
+                filtreretData = allData.users.filter(elm => elm.role == "admin");
+                filterHeader.textContent = "Admin";
+            } else if (e.target.value == "moderator") {
+                filtreretData = allData.users.filter(elm => elm.role == "moderator");
+                filterHeader.textContent = "moderator";
             }
             visListe(filtreretData);
         }
