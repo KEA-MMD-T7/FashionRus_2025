@@ -1,6 +1,7 @@
 const category = new URLSearchParams(window.location.search).get("category");
 const productlist = document.querySelector(".productlist main");
 const overskrift = document.querySelector("h2");
+document.querySelector("select").addEventListener("change", filtrer);
 
 let endpoint = `https://kea-alt-del.dk/t7/api/products`;
 
@@ -9,11 +10,19 @@ if (category) {
   endpoint = `https://kea-alt-del.dk/t7/api/products?category=${category}`;
 }
 
-fetch(endpoint)
-  .then((response) => response.json())
-  .then(showProducts);
+let allData, filtreretData;
+
+function hentData() {
+  fetch(endpoint)
+    .then((res) => res.json())
+    .then((data) => (allData = data))
+    .then((data) => showProducts(data));
+}
+
+hentData();
 
 function showProducts(data) {
+  console.log(data);
   markup = data
     .map(
       (element) =>
@@ -39,23 +48,11 @@ function showProducts(data) {
 
 function filtrer(e) {
   if (e.target.value == "all") {
-    filtreretData = allData.users;
-    filterHeader.textContent = "All";
-  } else if (e.target.value == "female") {
-    filtreretData = allData.users.filter((elm) => elm.gender == "female");
-    filterHeader.textContent = "Female";
-  } else if (e.target.value == "male") {
-    filtreretData = allData.users.filter((elm) => elm.gender == "male");
-    filterHeader.textContent = "Male";
-  } else if (e.target.value == "user") {
-    filtreretData = allData.users.filter((elm) => elm.role == "user");
-    filterHeader.textContent = "User";
-  } else if (e.target.value == "admin") {
-    filtreretData = allData.users.filter((elm) => elm.role == "admin");
-    filterHeader.textContent = "Admin";
-  } else if (e.target.value == "moderator") {
-    filtreretData = allData.users.filter((elm) => elm.role == "moderator");
-    filterHeader.textContent = "moderator";
+    filtreretData = allData;
+    overskrift.textContent = "All";
+  } else if (e.target.value == "onsale") {
+    filtreretData = allData.filter((elm) => elm.discount);
+    overskrift.textContent = "On Sale";
   }
   showProducts(filtreretData);
 }
