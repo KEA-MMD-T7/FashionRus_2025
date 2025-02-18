@@ -72,25 +72,23 @@ function showProduct(products, event) {
           `<article class="smallProduct ${product.discount ? "onSale" : ""} ${
             product.soldout ? "soldOut" : ""
           }">
-      <img
-        src="https://kea-alt-del.dk/t7/images/webp/640/${product.id}.webp"
-        alt="product image"
-      />
-      <h3>${product.productdisplayname}</h3>
-      <p class="subtle">${product.articletype} | ${product.brandname}</p>
-      <p class="price">DKK <span>${product.price}</span>,-</p>
-      ${
-        product.discount
-          ? `<div class="discounted">
-        <p>Now DKK <span>${Math.floor(
-          (product.price * (100 - product.discount)) / 100
-        )}</span>,-</p>
-        <p><span>${product.discount}</span>%</p>
-      </div>`
-          : ""
-      }
-      <a href="product.html?produktid=${product.id}">Read More</a>
-    </article>`
+            <img
+              src="https://kea-alt-del.dk/t7/images/webp/640/${product.id}.webp"
+              alt="product image"
+            />
+            <h3>${product.productdisplayname}</h3>
+            <p class="subtle">${product.articletype} | ${product.brandname}</p>
+            <p class="price">DKK <span>${product.price}</span>,-</p>
+            ${
+              product.discount
+                ? `<div class="discounted">
+                    <p>Now DKK <span>${Math.floor((product.price * (100 - product.discount)) / 100)}</span>,-</p>
+                    <p><span>${product.discount}</span>%</p>
+                  </div>`
+                : ""
+            }
+            <a href="product.html?produktid=${product.id}">Read More</a>
+        </article>`
       )
       .join("");
     productListContainer.innerHTML = markup;
