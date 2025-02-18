@@ -109,12 +109,3 @@ filterSelect.addEventListener("change", (event) => {
   showProduct(products, event);
 });
 ```
-
-## Konklusion
-Nu har vi:
-- Oprettet en dropdown til filtrering
-- Forbundet den med en eventlistener
-- Hentet produkter via `fetch`
-- Implementeret en funktion til at vise og filtrere produkter
-
-Dette giver en fleksibel og skalerbar filterfunktionalitet. 🚀
