@@ -1,4 +1,4 @@
-# Implementering af filterfunktionalitet i HTML og JavaScript
+# Implementering af filterfunktionalitet
 
 ## Del 1: Opsætning af UI og klargøring af EventListener
 
