@@ -27,8 +27,8 @@ Lyt efter ændringer i dropdownlisten:
 
 ```javascript
 filterSelect.addEventListener("change", (event) => {
-  // Funktionen showProduct opretter vi i punkt 5
-  showProduct(products, event);
+  // Eventlisteneren registrerer ændringer i dropdown-listen og aktiverer filtreringsfunktionen.
+  // Vi implementerer den fulde funktionalitet i guidens sidste punkt.
 });
 ```
 
