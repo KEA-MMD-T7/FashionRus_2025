@@ -1,8 +1,8 @@
 Del 1:
 
-1. HTML: Lav en dropdownliste <select> / knapper eller ligende UI elementer hvorfra et filter kan sættet.
+- 1. HTML: Lav en dropdownliste <select> / knapper eller ligende UI elementer hvorfra et filter kan sættet.
 
-2. Lav en reference med js til ex. drowdownliste elementet: ex. document.querySelector('#dropdownlist').
+- 2. Lav en reference med js til ex. drowdownliste elementet: ex. document.querySelector('#dropdownlist').
 
 3. Opret en eventlistener addEventListener((event) => {}) der kan lytte på ændringer i dropdownlisten.
 
