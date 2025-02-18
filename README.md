@@ -23,7 +23,7 @@ const filterSelect = document.querySelector("#filterProductList");
 ```
 
 ### 3. Tilføj en eventlistener
-Lyt efter ændringer i dropdownlisten:
+Lyt efter ændringer(brugeren vælger et nyt filter) i dropdownlisten:
 
 ```javascript
 filterSelect.addEventListener("change", (event) => {
@@ -97,13 +97,13 @@ function showProduct(products, event) {
 }
 ```
 
-### 6. Vis produkter ved initial render
+### 6. Vis alle produkter til at starte med
 
 ```javascript
 showProduct(products);
 ```
 
-### 7. Kald `showProduct()` i eventhandleren
+### 7. Kald `showProduct()` i eventhandleren, for at vise en filtreret liste af produkter
 
 ```javascript
 filterSelect.addEventListener("change", (event) => {
