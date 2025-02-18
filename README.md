@@ -29,6 +29,8 @@ Lyt efter ændringer(brugeren vælger et nyt filter) i dropdownlisten:
 filterSelect.addEventListener("change", (event) => {
   // Eventlisteneren registrerer ændringer i dropdown-listen og aktiverer filtreringsfunktionen.
   // Vi implementerer den fulde funktionalitet i guidens sidste punkt.
+  // Vi starter lige med at teste om vores eventlistener virker:
+  console.log(`Brugeren har valgt filteret: ${event.target.value}`)
 });
 ```
 
