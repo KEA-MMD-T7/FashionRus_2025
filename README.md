@@ -2,7 +2,7 @@
 
 ## Del 1: Opsætning af UI og EventListener
 
-### 1. Opret en dropdownliste
+### 1. Opret en dropdownliste i HTML filen
 Tilføj en `<select>` dropdownliste til at vælge et filter.
 
 ```html
@@ -15,7 +15,7 @@ Tilføj en `<select>` dropdownliste til at vælge et filter.
 </select>
 ```
 
-### 2. Opret en reference til dropdownlisten
+### 2. Opret en reference til dropdownlisten i javascript filen
 Brug JavaScript til at referere til dropdownlisten:
 
 ```javascript
