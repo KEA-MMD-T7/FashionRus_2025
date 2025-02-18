@@ -34,7 +34,7 @@ filterSelect.addEventListener("change", (event) => {
 
 ## Del 2: Håndtering af produkter med fetch og filter
 
-### 4. Hent produkter og gem i en variabel
+### 4. Hent og gem produkter i en variabel
 
 ```javascript
 let products = fetch("https://kea-alt-del.dk/t7/api/products")
