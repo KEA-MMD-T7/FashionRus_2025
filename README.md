@@ -1,6 +1,6 @@
 # Implementering af filterfunktionalitet i HTML og JavaScript
 
-## Del 1: Opsætning af UI og EventListener
+## Del 1: Opsætning af UI og klargøring af EventListener
 
 ### 1. Opret en dropdownliste i HTML filen
 Tilføj en `<select>` dropdownliste til at vælge et filter.
