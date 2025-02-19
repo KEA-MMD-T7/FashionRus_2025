@@ -3,6 +3,7 @@
 ## Del 1: Opsætning af UI og klargøring af EventListener
 
 ### 1. Opret en dropdownliste i HTML filen
+
 Tilføj en `<select>` dropdownliste til at vælge et filter.
 
 ```html
@@ -10,12 +11,14 @@ Tilføj en `<select>` dropdownliste til at vælge et filter.
   <option value="all">Vis alle produkter</option>
   <option value="instock">Vis produkter på lager</option>
   <option value="discount">Vis produkter på udsalg</option>
-  <option value="instockDiscount">Vis produkter på udsalg (ikke udsolgte)</option>
-  <option value="soldout">Vis udsolgte produkter</option>
+  <option value="discountNotSoldout">
+    Vis produkter på udsalg (ikke udsolgte)
+  </option>
 </select>
 ```
 
 ### 2. Opret en reference til dropdownlisten i javascript filen
+
 Brug JavaScript til at referere til dropdownlisten:
 
 ```javascript
@@ -23,14 +26,12 @@ const filterSelect = document.querySelector("#filterProductList");
 ```
 
 ### 3. Tilføj en eventlistener
-Lyt efter ændringer(brugeren vælger et nyt filter) i dropdownlisten:
+
+Lyt efter ændringer (brugeren vælger et nyt filter) i dropdownlisten:
 
 ```javascript
 filterSelect.addEventListener("change", (event) => {
-  // Eventlisteneren registrerer ændringer i dropdown-listen og aktiverer filtreringsfunktionen.
-  // Vi implementerer den fulde funktionalitet i guidens sidste punkt.
-  // Vi starter lige med at teste om vores eventlistener virker:
-  console.log(`Brugeren har valgt filteret: ${event.target.value}`)
+  showProduct(products, event);
 });
 ```
 
@@ -39,42 +40,50 @@ filterSelect.addEventListener("change", (event) => {
 ### 4. Hent og gem produkter i en variabel
 
 ```javascript
-let products = fetch("https://kea-alt-del.dk/t7/api/products")
-  .then((response) => response.json())
-  .then((data) => data);
+let products = undefined;
+
+const fetchProducts = async () => {
+  fetch("https://kea-alt-del.dk/t7/api/products")
+    .then((response) => response.json())
+    .then((data) => {
+      products = data;
+      showProduct(products);
+    });
+};
+
+fetchProducts();
 ```
 
 ### 5. Opret en funktion til at vise produkter
+
 Flyt produktvisningen fra `.then()` ind i en funktion:
 
 ```javascript
-let productListContainer = document.querySelector("#productlistcontainer");
+const productListContainer = document.querySelector("#productlistcontainer");
 
-function showProduct(products, event) {
-  products.then((products) => {
-    let markup = products
-      .filter((product) => {
-        if (event) {
-          if (event.target.value == "all") {
-            return true;
-          } else if (event.target.value == "discount") {
-            return product.discount;
-          } else if (event.target.value == "soldout") {
-            return product.soldout;
-          } else if (event.target.value == "instock") {
-            return !product.soldout;
-          } else if (event.target.value == "instockDiscount") {
-            return !product.soldout && product.discount;
-          }
+const showProduct = (products, event) => {
+  let markup = products
+    .filter((product) => {
+      if (event) {
+        if (event.target.value == "discount") {
+          return product.discount;
+        } else if (event.target.value == "soldout") {
+          return product.soldout;
+        } else if (event.target.value == "discountNotSoldout") {
+          return product.discount && !product.soldout;
         } else {
           return true;
         }
-      })
-      .map(
-        (product) =>
-          `<article class="smallProduct ${product.discount ? "onSale" : ""} ${
-            product.soldout ? "soldOut" : ""
-          }">
+      } else {
+        return true;
+      }
+    })
+    .map(
+      (product) => /*html*/ `<article
+            class="smallProduct ${product.discount && "onSale"} ${
+        product.soldout && "soldOut"
+      }"
+          >
             <img
               src="https://kea-alt-del.dk/t7/images/webp/640/${product.id}.webp"
               alt="product image"
@@ -82,27 +91,27 @@ function showProduct(products, event) {
             <h3>${product.productdisplayname}</h3>
             <p class="subtle">${product.articletype} | ${product.brandname}</p>
             <p class="price">DKK <span>${product.price}</span>,-</p>
-            ${
-              product.discount
-                ? `<div class="discounted">
-                    <p>Now DKK <span>${Math.floor((product.price * (100 - product.discount)) / 100)}</span>,-</p>
-                    <p><span>${product.discount}</span>%</p>
-                  </div>`
-                : ""
-            }
+            <div class="discounted">
+              <p>
+                Now DKK
+                <span
+                  >${Math.floor((product.price * product.discount) / 100)}</span
+                >,-
+              </p>
+              <p><span>${product.discount}</span>%</p>
+            </div>
             <a href="product.html?produktid=${product.id}">Read More</a>
-        </article>`
-      )
-      .join("");
-    productListContainer.innerHTML = markup;
-  });
-}
+          </article>`
+    )
+    .join("");
+  productListContainer.innerHTML = markup;
+};
 ```
 
 ### 6. Vis alle produkter til at starte med
 
 ```javascript
-showProduct(products);
+fetchProducts();
 ```
 
 ### 7. Kald `showProduct()` i eventhandleren, for at vise en filtreret liste af produkter
