@@ -1,36 +1,29 @@
 const productListContainer = document.querySelector("#productlistcontainer");
 const filterSelect = document.querySelector("#filterProductList");
+let products = undefined;
 
-const products = fetch("https://kea-alt-del.dk/t7/api/products")
-  .then((response) => response.json())
-  .then((data) => data);
-
-function showProduct(products, event) {
-  products.then((products) => {
-    let markup = products
-      .filter((product) => {
-        if (event) {
-          if (event.target.value == "all") {
-            // Return true betyder at alle produkter kommer med i det filtrerede resultat!
-            return true;
-          } else if (event.target.value == "discount") {
-            return product.discount;
-          } else if (event.target.value == "soldout") {
-            return product.soldout;
-          } else if (event.target.value == "instock") {
-            return !product.soldout;
-          } else if (event.target.value == "instockDiscount") {
-            return !product.soldout && product.discount;
-          }
+const showProduct = (products, event) => {
+  let markup = products
+    .filter((product) => {
+      if (event) {
+        if (event.target.value == "discount") {
+          return product.discount;
+        } else if (event.target.value == "soldout") {
+          return product.soldout;
+        } else if (event.target.value == "discountNotSoldout") {
+          return product.discount && !product.soldout;
         } else {
           return true;
         }
-      })
-      .map(
-        (product) => /*html*/ `<article
+      } else {
+        return true;
+      }
+    })
+    .map(
+      (product) => /*html*/ `<article
             class="smallProduct ${product.discount && "onSale"} ${
-          product.soldout && "soldOut"
-        }"
+        product.soldout && "soldOut"
+      }"
           >
             <img
               src="https://kea-alt-del.dk/t7/images/webp/640/${product.id}.webp"
@@ -50,14 +43,22 @@ function showProduct(products, event) {
             </div>
             <a href="product.html?produktid=${product.id}">Read More</a>
           </article>`
-      )
-      .join("");
-    productListContainer.innerHTML = markup;
-  });
-}
-// vis alle produkter på siden til at starte med
-showProduct(products);
-// når et filter vælges - sorter produkt listen så den matcher det valgte filter
+    )
+    .join("");
+  productListContainer.innerHTML = markup;
+};
+
+const fetchProducts = async () => {
+  fetch("https://kea-alt-del.dk/t7/api/products")
+    .then((response) => response.json())
+    .then((data) => {
+      products = data;
+      showProduct(products);
+    });
+};
+
+fetchProducts();
+
 filterSelect.addEventListener("change", (event) => {
   showProduct(products, event);
 });
